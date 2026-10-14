@@ -1,0 +1,70 @@
+/* History page */
+.history-page {
+    min-height: 100vh;
+    padding: 16px 24px 40px;
+    background: linear-gradient(180deg, #f5f7fb 0%, #eaeefa 100%);
+    box-sizing: border-box;
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 720px;
+    margin: 0 auto 20px;
+}
+
+.history-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* MUI Card override */
+.history-card.MuiCard-root {
+    border-radius: 12px;
+    border: 1px solid #e3e8f2;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.history-card.MuiCard-root:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 24, 40, 0.1);
+}
+
+.history-code {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.history-date {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-size: 0.8rem;
+}
+
+.history-empty {
+    text-align: center;
+    color: #6b7280;
+    margin-top: 60px;
+}
+
+@media (max-width: 600px) {
+    .history-page {
+        padding: 12px 12px 32px;
+    }
+}

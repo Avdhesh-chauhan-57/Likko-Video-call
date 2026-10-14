@@ -1,0 +1,186 @@
+/* ===== Home page styles for HomeComponent ===== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f7f9fc;
+    color: #1f2937;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 40px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navleftSide h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ff7a18;
+    letter-spacing: 0.5px;
+}
+
+.navRightSide {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navRightSide p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.navRightSide button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #ff7a18;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.navRightSide button:hover {
+    background: #e56a0c;
+}
+
+.navRightSide button:active {
+    transform: scale(0.97);
+}
+
+/* ---------- Main container ---------- */
+.meetContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    min-height: calc(100vh - 70px);
+    padding: 40px 60px;
+}
+
+/* ---------- Left panel ---------- */
+.leftPannel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.leftPannel h2 {
+    font-size: 2.4rem;
+    line-height: 1.3;
+    font-weight: 700;
+    margin: 0 0 32px 0;
+    color: #111827;
+}
+
+.leftPannel>div>div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.leftPannel .MuiTextField-root {
+    min-width: 260px;
+    background: #ffffff;
+    border-radius: 6px;
+}
+
+.leftPannel .MuiButton-root {
+    height: 56px;
+    padding: 0 32px;
+    background: #ff7a18;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.leftPannel .MuiButton-root:hover {
+    background: #e56a0c;
+    box-shadow: 0 4px 12px rgba(255, 122, 24, 0.35);
+}
+
+/* ---------- Right panel ---------- */
+.rightPannel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rightPannel img {
+    max-width: 100%;
+    max-height: 480px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15));
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 900px) {
+    .navbar {
+        padding: 12px 20px;
+    }
+
+    .meetContainer {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+        gap: 30px;
+    }
+
+    .leftPannel h2 {
+        font-size: 1.9rem;
+    }
+
+    .leftPannel>div>div {
+        justify-content: center;
+    }
+
+    .rightPannel img {
+        max-height: 320px;
+    }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 520px) {
+    .navleftSide h2 {
+        font-size: 1.15rem;
+    }
+
+    .navRightSide p {
+        display: none;
+    }
+
+    .leftPannel h2 {
+        font-size: 1.5rem;
+    }
+
+    .leftPannel>div>div {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .leftPannel .MuiTextField-root,
+    .leftPannel .MuiButton-root {
+        width: 100%;
+    }
+}
