@@ -219,7 +219,7 @@
 }
 
 /* End-call button (2nd button) */
-.buttonContainer>button:nth-child(3) {
+.buttonContainer>button:nth-child(2) {
     width: 66px;
     height: 56px;
     border-radius: 28px !important;
