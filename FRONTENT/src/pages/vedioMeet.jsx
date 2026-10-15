@@ -591,12 +591,13 @@ export default function VedioMeetComponent() {
                         <IconButton onClick={handleVideo} style={{ color: "white" }}>
                             {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
                         </IconButton>
-                        <IconButton onClick={handleSwitchCamera} style={{ color: "white" }}>
-                            <CameraswitchIcon />
-                        </IconButton>
+
 
                         <IconButton onClick={handleEndCall} style={{ color: "red" }}>
                             <CallEndIcon />
+                        </IconButton>
+                        <IconButton onClick={handleSwitchCamera} style={{ color: "white" }}>
+                            <CameraswitchIcon />
                         </IconButton>
 
                         <IconButton onClick={handleAudio} style={{ color: "white" }}>
