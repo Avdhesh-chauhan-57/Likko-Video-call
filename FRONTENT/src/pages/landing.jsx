@@ -14,7 +14,7 @@ export default function LandingPage() {
                     <h2>Likko Video Call</h2>
                 </div>
                 <div className="navlist">
-                    <p onClick={() => { route("/guest-??zndfgn0nvcnvdngqtu9485468vbwt") }}>Join as Guest</p>
+                    <p onClick={() => { route("/guest") }}>Join as Guest</p>
                     <p className='register-btn' onClick={() => { route("/auth") }}>Register</p>
                     <div role="button" className="login-btn">
                         <p onClick={() => { route("/auth") }}>Login</p>
