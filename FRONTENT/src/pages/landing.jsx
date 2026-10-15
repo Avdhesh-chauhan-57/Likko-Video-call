@@ -17,7 +17,7 @@ export default function LandingPage() {
                     <p onClick={() => { route("/guest-??zndfgn0nvcnvdngqtu9485468vbwt") }}>Join as Guest</p>
                     <p className='register-btn' onClick={() => { route("/auth") }}>Register</p>
                     <div role="button" className="login-btn">
-                        <a href="/auth">Login</a>
+                        <p onClick={() => { route("/auth") }}>Login</p>
                     </div>
                 </div>
             </nav>
