@@ -10,17 +10,22 @@ html,
 body {
     margin: 0;
     overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+}
+
+img {
+    max-width: 100%;
 }
 
 .landingPageContainer {
     display: flow-root;
     width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     background: url("../bg3.png") center / cover no-repeat;
     color: white;
     font-family: 'Inter', system-ui, sans-serif;
     overflow-x: clip;
-
 }
 
 /* ---------- NAV (glass) ---------- */
@@ -33,12 +38,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: .8rem;
     border-radius: 999px;
     background: rgba(255, 255, 255, .07);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, .15);
-
 }
 
 .landingPageContainer nav h2 {
@@ -46,6 +51,7 @@ body {
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -.01em;
+    white-space: nowrap;
 }
 
 .landingPageContainer nav .navlist {
@@ -59,26 +65,19 @@ body {
     margin: 0;
     font-weight: 600;
     opacity: .9;
+    white-space: nowrap;
 }
 
 .landingPageContainer nav .navlist p:hover {
     opacity: 1;
 }
 
-.login-btn {
-    padding: .45rem 1.2rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, .14);
-    border: 1px solid rgba(255, 255, 255, .25);
-
-}
-
+.login-btn,
 .register-btn {
     padding: .45rem 1.2rem;
     border-radius: 999px;
     background: rgba(255, 255, 255, .14);
     border: 1px solid rgba(255, 255, 255, .25);
-
 }
 
 .login-btn a {
@@ -100,6 +99,7 @@ body {
 
 .main-text {
     flex: 1 1 460px;
+    min-width: 0;
 }
 
 .main-text h1 {
@@ -120,9 +120,8 @@ body {
     font-weight: 900;
 }
 
-
 .sub-text {
-    font-size: 1.35rem;
+    font-size: clamp(1rem, 1.2vw + .7rem, 1.35rem);
     margin: 1rem 0 0;
     color: #dfe6ff;
 }
@@ -160,12 +159,13 @@ body {
 
 .feature-row img {
     width: 240px;
+    max-width: 100%;
     height: auto;
 }
 
-/* ~half of @2x file */
 .users-card {
     width: 282px;
+    max-width: 100%;
     height: auto;
     display: block;
     margin-top: .2rem;
@@ -174,8 +174,8 @@ body {
 /* ---------- HERO CARD + FLOATING ---------- */
 .img-main {
     position: relative;
-
     flex: 0 1 520px;
+    min-width: 0;
     display: flex;
     justify-content: center;
 }
@@ -187,16 +187,19 @@ body {
     display: block;
 }
 
+/* sizes/positions are relative to the card so they scale with it */
 .float-share {
     position: absolute;
-    width: 238px;
-    right: 650px;
+    width: 46%;
+    max-width: 238px;
+    right: 125%;
     bottom: 15%;
 }
 
 .float-react {
     position: absolute;
-    width: 228px;
+    width: 44%;
+    max-width: 228px;
     right: 4%;
     bottom: -13%;
 }
@@ -245,15 +248,59 @@ body {
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
+        transition: none !important;
     }
 }
 
-/* ---------- MOBILE ---------- */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* ---------- LARGE TABLET / SMALL LAPTOP (≤1200px) ---------- */
+@media (max-width: 1200px) {
+    .landingmainContainer {
+        padding: 1rem 2rem 6rem;
+        gap: 1.5rem;
+    }
+
+    /* the floating share card would land on top of the text column,
+       so tuck it onto the hero card instead */
+    .float-share {
+        right: auto;
+        left: -6%;
+        bottom: 8%;
+    }
+}
+
+/* ---------- TABLET (≤900px): stacked layout ---------- */
 @media (max-width: 900px) {
+    .landingPageContainer nav {
+        top: .6rem;
+        margin: .6rem 1rem;
+        padding: .75rem 1.2rem;
+    }
+
+    .landingPageContainer nav h2 {
+        font-size: 1.3rem;
+    }
+
+    .landingPageContainer nav .navlist {
+        gap: 1rem;
+        font-size: .95rem;
+    }
+
     .landingmainContainer {
         flex-direction: column;
         text-align: center;
-        padding: 1rem 1.2rem 2rem;
+        padding: 1.5rem 1.5rem 4rem;
+        min-height: auto;
+        gap: 2.5rem;
+    }
+
+    .main-text {
+        flex: none;
+        width: 100%;
+        max-width: 640px;
     }
 
     .get-btn {
@@ -272,15 +319,35 @@ body {
     .img-main {
         flex: none;
         width: 100%;
-        max-width: 420px;
+        max-width: 440px;
+        margin-bottom: 3rem;
+        /* room for the overhanging react card */
     }
 
     .float-share {
         left: -4px;
+        right: auto;
+        bottom: 10%;
     }
 
+    .float-react {
+        right: 0;
+        bottom: -10%;
+    }
+
+    .hero-text {
+        font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+    }
+}
+
+/* ---------- PHONE (≤600px) ---------- */
+@media (max-width: 600px) {
     .landingPageContainer nav {
-        padding: .7rem 1rem;
+        margin: .5rem .6rem;
+        padding: .6rem .9rem;
+        border-radius: 24px;
+        flex-wrap: wrap;
+        row-gap: .4rem;
     }
 
     .landingPageContainer nav h2 {
@@ -288,11 +355,108 @@ body {
     }
 
     .landingPageContainer nav .navlist {
-        gap: .8rem;
-        font-size: .85rem;
+        gap: .5rem;
+        font-size: .8rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .login-btn,
+    .register-btn {
+        padding: .35rem .8rem;
+    }
+
+    .landingmainContainer {
+        padding: 1rem 1rem 3rem;
+        gap: 2rem;
+    }
+
+    .main-text h1 {
+        font-size: clamp(1.8rem, 9vw, 2.4rem);
     }
 
     .hero-text {
         font-size: clamp(1.3rem, 6.5vw, 1.9rem);
+    }
+
+    .sub-text {
+        font-size: 1rem;
+    }
+
+    .get-btn {
+        margin-top: 1.4rem;
+        padding: .75rem 1.5rem;
+        border-radius: 14px;
+    }
+
+    .get-btn a {
+        font-size: 1.15rem;
+    }
+
+    .feature-row {
+        margin-top: 1.2rem;
+        gap: .4rem;
+    }
+
+    .feature-row img {
+        width: 46%;
+        max-width: 200px;
+    }
+
+    .users-card {
+        width: 220px;
+    }
+
+    .img-main {
+        max-width: 340px;
+        margin-bottom: 2.5rem;
+    }
+
+    .float-share {
+        width: 48%;
+        left: -2%;
+        bottom: 6%;
+    }
+
+    .float-react {
+        width: 46%;
+        right: -2%;
+        bottom: -8%;
+    }
+}
+
+/* ---------- SMALL PHONE (≤380px) ---------- */
+@media (max-width: 380px) {
+    .landingPageContainer nav .navlist {
+        font-size: .72rem;
+        gap: .35rem;
+    }
+
+    .landingPageContainer nav h2 {
+        font-size: 1rem;
+    }
+
+    .feature-row img {
+        width: 100%;
+        max-width: 240px;
+    }
+
+    .img-main {
+        max-width: 280px;
+    }
+
+    .get-btn a {
+        font-size: 1.05rem;
+    }
+}
+
+/* ---------- SHORT LANDSCAPE PHONES ---------- */
+@media (max-height: 500px) and (orientation: landscape) {
+    .landingPageContainer nav {
+        position: static;
+    }
+
+    .landingmainContainer {
+        min-height: auto;
     }
 }

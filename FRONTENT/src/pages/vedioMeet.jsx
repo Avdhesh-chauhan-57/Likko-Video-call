@@ -15,7 +15,9 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 import Badge from '@mui/material/Badge';
 import ChatIcon from '@mui/icons-material/Chat';
+import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 import server from '../environment';
+import { useNavigate } from 'react-router-dom';
 
 const server_url = server;
 var connections = {};
@@ -85,6 +87,8 @@ export default function VedioMeetComponent() {
     let [videos, setVideos] = useState([]);
     const videoRef = useRef([]);
     const [usernameError, setUsernameError] = useState(false);
+    let [facingMode, setFacingMode] = useState("user"); // "user" = front, "environment" = back
+    const navigate = useNavigate();
 
 
     // if (isChrome() === false) {
@@ -220,11 +224,13 @@ export default function VedioMeetComponent() {
 
 
     let getUserMedia = () => {
-        if ((video && videoAvailable) || (audio, audioAvailable)) {
-            navigator.mediaDevices.getUserMedia({ video: video, audio: audio })
+        if ((video && videoAvailable) || (audio && audioAvailable)) {
+            navigator.mediaDevices.getUserMedia({
+                video: video ? { facingMode: { ideal: facingMode } } : false,
+                audio: audio
+            })
                 .then(getUserMediaSuccess)
-                .then((stream) => { })
-                .catch((e) => { console.log(e) })
+                .catch((e) => console.log(e))
         } else {
             try {
                 let tracks = localVedioRef.current.srcObject.getTracks();
@@ -237,14 +243,11 @@ export default function VedioMeetComponent() {
 
 
 
-
-
     useEffect(() => {
         if (video !== undefined && audio !== undefined) {
             getUserMedia();
         }
-    }, [audio, video]);
-
+    }, [audio, video, facingMode]);
 
 
     let gotMessageFromServer = (fromId, message) => {
@@ -485,10 +488,13 @@ export default function VedioMeetComponent() {
 
     let handleEndCall = () => {
         try {
-            let tracks = localVideoref.current.srcObject.getTracks()
+            let tracks = localVedioRef.current.srcObject.getTracks()
             tracks.forEach(track => track.stop())
         } catch (e) { }
-        window.location.href = "/home"
+        navigate("/home");
+    }
+    let handleSwitchCamera = () => {
+        setFacingMode(prev => prev === "user" ? "environment" : "user");
     }
 
     return (
@@ -502,7 +508,13 @@ export default function VedioMeetComponent() {
                         <p className={styles.lobbySub}>Check your camera, then join the call</p>
 
                         <div className={styles.lobbyVideoBox}>
-                            <video ref={localVedioRef} autoPlay muted className="lobbyVideo"></video>
+                            <video
+                                className={styles.lobbyVideo}
+                                style={{ transform: (facingMode === "user" && !screen) ? "scaleX(-1)" : "none" }}
+                                ref={localVedioRef}
+                                autoPlay
+                                muted
+                            ></video>
                         </div>
 
                         <TextField
@@ -579,9 +591,14 @@ export default function VedioMeetComponent() {
                         <IconButton onClick={handleVideo} style={{ color: "white" }}>
                             {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
                         </IconButton>
+                        <IconButton onClick={handleSwitchCamera} style={{ color: "white" }}>
+                            <CameraswitchIcon />
+                        </IconButton>
+
                         <IconButton onClick={handleEndCall} style={{ color: "red" }}>
                             <CallEndIcon />
                         </IconButton>
+
                         <IconButton onClick={handleAudio} style={{ color: "white" }}>
                             {(audio === true) ? <MicIcon /> : <MicOffIcon />}
                         </IconButton>

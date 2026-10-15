@@ -152,6 +152,7 @@
     /* heavy shadow x 6+ videos = lag */
     transition: none;
     display: block;
+    transform: none;
 }
 
 /* ========== Local (self) video - picture in picture ========== */
@@ -218,7 +219,7 @@
 }
 
 /* End-call button (2nd button) */
-.buttonContainer>button:nth-child(2) {
+.buttonContainer>button:nth-child(3) {
     width: 66px;
     height: 56px;
     border-radius: 28px !important;
