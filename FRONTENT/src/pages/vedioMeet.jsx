@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState, memo } from 'react'
 import styles from "../styles/vedioComponent.module.css"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-const server_url = "http://localhost:8000";
+
 import io from "socket.io-client";
 import IconButton from '@mui/material/IconButton';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -15,8 +15,9 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 import Badge from '@mui/material/Badge';
 import ChatIcon from '@mui/icons-material/Chat';
+import server from '../environment';
 
-
+const server_url = server;
 var connections = {};
 
 const peerConfigConnection = {
