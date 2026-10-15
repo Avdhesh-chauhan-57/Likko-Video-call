@@ -79,37 +79,68 @@ export const connectToSocket = (server) => {
 
         })
 
+        // socket.on("disconnect", () => {
+
+        //     var diffTime = Math.abs(timeOnline[socket.id] - new Date())
+
+        //     var key
+
+        //     for (const [k, v] of JSON.parse(JSON.stringify(Object.entries(connections)))) {
+
+        //         for (let a = 0; a < v.length; ++a) {
+        //             if (v[a] === socket.id) {
+        //                 key = k
+
+        //                 for (let a = 0; a < connections[key].length; ++a) {
+        //                     io.to(connections[key][a]).emit('user-left', socket.id)
+        //                 }
+
+        //                 var index = connections[key].indexOf(socket.id)
+
+        //                 connections[key].splice(index, 1)
+
+
+        //                 if (connections[key].length === 0) {
+        //                     delete connections[key]
+        //                 }
+        //             }
+        //         }
+
+        //     }
+
+
+        // })
         socket.on("disconnect", () => {
 
-            var diffTime = Math.abs(timeOnline[socket.id] - new Date())
+            // user kitni der online raha (optional, log ke liye)
+            const diffTime = Math.abs(timeOnline[socket.id] - new Date());
+            console.log(`User ${socket.id} disconnected after ${Math.round(diffTime / 1000)}s`);
 
-            var key
+            // memory leak fix
+            delete timeOnline[socket.id];
 
-            for (const [k, v] of JSON.parse(JSON.stringify(Object.entries(connections)))) {
+            // jis room mein ye user tha, usse dhundo
+            for (const roomKey of Object.keys(connections)) {
+                const room = connections[roomKey];
+                const index = room.indexOf(socket.id);
 
-                for (let a = 0; a < v.length; ++a) {
-                    if (v[a] === socket.id) {
-                        key = k
+                if (index === -1) continue;
 
-                        for (let a = 0; a < connections[key].length; ++a) {
-                            io.to(connections[key][a]).emit('user-left', socket.id)
-                        }
+                // pehle user ko room se hatao
+                room.splice(index, 1);
 
-                        var index = connections[key].indexOf(socket.id)
+                // phir bache hue logon ko batao ki user chala gaya
+                room.forEach((id) => {
+                    io.to(id).emit("user-left", socket.id);
+                });
 
-                        connections[key].splice(index, 1)
-
-
-                        if (connections[key].length === 0) {
-                            delete connections[key]
-                        }
-                    }
+                // room khaali ho gaya to delete kar do
+                if (room.length === 0) {
+                    delete connections[roomKey];
+                    delete messages[roomKey]; // optional, neeche padho
                 }
-
             }
-
-
-        })
+        });
 
 
     })

@@ -304,8 +304,13 @@ export default function VedioMeetComponent() {
             socketRef.current.on('chat-message', addMessage)
 
             socketRef.current.on('user-left', (id) => {
-                setVideos((videos) => videos.filter((video) => video.socketId !== id))
-            })
+                if (connections[id]) {
+                    connections[id].close();
+                    delete connections[id];
+                }
+                videoRef.current = videoRef.current.filter(v => v.socketId !== id);
+                setVideos(prev => prev.filter(v => v.socketId !== id));
+            });
 
             socketRef.current.on('user-joined', (id, clients) => {
                 clients.forEach((socketListId) => {
@@ -437,6 +442,16 @@ export default function VedioMeetComponent() {
         })
     }
 
+    useEffect(() => {
+        return () => {
+            socketRef.current?.disconnect();
+            for (let id in connections) {
+                connections[id].close();
+                delete connections[id];
+            }
+            window.localStream?.getTracks().forEach(t => t.stop());
+        };
+    }, []);
 
 
 
@@ -488,11 +503,26 @@ export default function VedioMeetComponent() {
 
     let handleEndCall = () => {
         try {
-            let tracks = localVedioRef.current.srcObject.getTracks()
-            tracks.forEach(track => track.stop())
+            window.localStream?.getTracks().forEach(track => track.stop());
+            localVedioRef.current?.srcObject?.getTracks().forEach(track => track.stop());
         } catch (e) { }
+
+        // saare peer connections band karo
+        for (let id in connections) {
+            connections[id].close();
+            delete connections[id];
+        }
+
+        // socket disconnect -> server 'disconnect' fire karega -> baaki users ko 'user-left' milega
+        if (socketRef.current) {
+            socketRef.current.disconnect();
+        }
+
+        videoRef.current = [];
+        setVideos([]);
+        window.localStream = null;
         navigate("/home");
-    }
+    };
     let handleSwitchCamera = () => {
         setFacingMode(prev => prev === "user" ? "environment" : "user");
     }
